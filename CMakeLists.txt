@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(GNUInstallDirs)
-find_package(LingmoToolkit REQUIRED)
+find_package(LingmoSDK REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(Systemd REQUIRED IMPORTED_TARGET libsystemd)
 pkg_check_modules(PipeWire REQUIRED IMPORTED_TARGET libpipewire-0.3)
@@ -62,7 +62,7 @@ portal_wayland_protocol(portal-core xdg-output-unstable-v1 unstable/xdg-output)
 portal_wayland_protocol(portal-core linux-dmabuf-v1 stable/linux-dmabuf)
 target_include_directories(portal-core PRIVATE ${PROTOCOL_DIR})
 target_include_directories(portal-core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(portal-core PUBLIC Lingmo::ToolkitBase PkgConfig::Systemd
+target_link_libraries(portal-core PUBLIC Lingmo::SDKBase PkgConfig::Systemd
     PRIVATE PkgConfig::PipeWire PkgConfig::WaylandClient PkgConfig::Gbm PkgConfig::Libdrm)
 
 add_executable(xdg-desktop-portal-lingmo src/main.cpp)

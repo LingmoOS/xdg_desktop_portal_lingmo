@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Lingmo OS Team <team@lingmo.org>
 Build-Depends: cmake,
                debhelper-compat (= 14),
-               lingmo-toolkit,
+               lingmo-sdk,
                pkg-config,
                libwayland-bin,
                libwayland-dev,
@@ -19,7 +19,7 @@ Homepage: https://github.com/lingmoos/xdg-desktop-portal-lingmo
 Package: xdg-desktop-portal-lingmo
 Architecture: any
 Depends: xdg-desktop-portal,
-         lingmo-toolkit,
+         lingmo-sdk,
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: lingmo-compositor
