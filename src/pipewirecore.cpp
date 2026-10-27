@@ -15,7 +15,7 @@ static const pw_core_events coreEvents = [] {
     events.error = [](void *data, uint32_t id, int, int result, const char *message) {
         if (id != PW_ID_CORE)
             return;
-        CF_WARNING(base::LogCategory::defaultCategory()) << "PipeWire core error" << result << message;
+        LM_WARNING(base::LogCategory::defaultCategory()) << "PipeWire core error" << result << message;
         // The connection is unusable; tear it down outside the callback.
         static_cast<PipeWireCore *>(data)->failLater();
     };
@@ -42,7 +42,7 @@ bool PipeWireCore::connectToDaemon()
     m_context = m_loop ? pw_context_new(m_loop, nullptr, 0) : nullptr;
     m_core = m_context ? pw_context_connect(m_context, nullptr, 0) : nullptr;
     if (!m_core) {
-        CF_WARNING(base::LogCategory::defaultCategory()) << "Cannot connect to PipeWire for screen casting";
+        LM_WARNING(base::LogCategory::defaultCategory()) << "Cannot connect to PipeWire for screen casting";
         disconnect();
         return false;
     }

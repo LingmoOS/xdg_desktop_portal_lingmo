@@ -182,7 +182,7 @@ public:
                     isOpen = false;
                     const std::optional<std::string> result = reply.value<std::string>();
                     if (!result) {
-                        CF_WARNING(base::LogCategory::defaultCategory())
+                        LM_WARNING(base::LogCategory::defaultCategory())
                                 << "File Manager chooser failed:" << reply.error().message;
                         finish(2);
                         return;

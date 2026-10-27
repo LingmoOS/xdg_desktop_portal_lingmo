@@ -166,7 +166,7 @@ public:
     void run(const std::string &parentWindow)
     {
         if (!wayland->connectToDisplay() || !wayland->captureAvailable()) {
-            CF_WARNING(base::LogCategory::defaultCategory()) << "Screen capture is unavailable on this Wayland display";
+            LM_WARNING(base::LogCategory::defaultCategory()) << "Screen capture is unavailable on this Wayland display";
             finish(2);
             return;
         }
@@ -224,7 +224,7 @@ public:
                     uint32_t response = 0;
                     VariantMap results;
                     if (!reply.read(response, results)) {
-                        CF_WARNING(base::LogCategory::defaultCategory())
+                        LM_WARNING(base::LogCategory::defaultCategory())
                                 << "Permission prompt failed:" << reply.error().message;
                         finish(2);
                         return;

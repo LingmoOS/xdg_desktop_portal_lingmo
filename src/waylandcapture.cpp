@@ -268,7 +268,7 @@ bool WaylandCapture::connectToDisplay()
         return true;
     m_display = wl_display_connect(nullptr);
     if (!m_display) {
-        CF_WARNING(base::LogCategory::defaultCategory())
+        LM_WARNING(base::LogCategory::defaultCategory())
                 << "Cannot connect to the Wayland display for screen capture";
         return false;
     }
@@ -536,7 +536,7 @@ void WaylandCapture::disconnect()
     m_disconnectPending = false;
     if (!m_display)
         return;
-    CF_WARNING(base::LogCategory::defaultCategory()) << "Lost the Wayland display used for screen capture";
+    LM_WARNING(base::LogCategory::defaultCategory()) << "Lost the Wayland display used for screen capture";
     // An import the compositor will never answer fails now, while its
     // session is still whole.
     const auto pending = std::exchange(m_pendingParams, {});

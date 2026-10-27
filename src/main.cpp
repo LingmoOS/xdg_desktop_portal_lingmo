@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
     base::dbus::Connection *bus = base::dbus::Connection::session(&loop);
     if (!bus) {
-        CF_CRITICAL(base::LogCategory::defaultCategory()) << "Cannot connect to the session bus";
+        LM_CRITICAL(base::LogCategory::defaultCategory()) << "Cannot connect to the session bus";
         return 1;
     }
 
@@ -74,12 +74,12 @@ int main(int argc, char *argv[])
     FileChooserPortal fileChooser(bus);
     ScreenCastPortal screenCast(bus);
     if (!settings.publish() || !inhibit.publish() || !fileChooser.publish() || !screenCast.publish()) {
-        CF_CRITICAL(base::LogCategory::defaultCategory()) << "Cannot export the portals";
+        LM_CRITICAL(base::LogCategory::defaultCategory()) << "Cannot export the portals";
         return 1;
     }
 
     if (!bus->requestName("org.freedesktop.impl.portal.desktop.lingmo")) {
-        CF_CRITICAL(base::LogCategory::defaultCategory()) << "Cannot own the Lingmo portal service";
+        LM_CRITICAL(base::LogCategory::defaultCategory()) << "Cannot own the Lingmo portal service";
         return 1;
     }
 

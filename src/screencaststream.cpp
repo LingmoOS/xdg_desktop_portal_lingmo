@@ -240,7 +240,7 @@ bool ScreenCastStream::start()
         if (m_finished)
             return;
         if (m_session->bufferSize().isEmpty() || !m_session->argbSupported()) {
-            CF_WARNING(base::LogCategory::defaultCategory()) << "Unsupported capture constraints for" << m_target.name;
+            LM_WARNING(base::LogCategory::defaultCategory()) << "Unsupported capture constraints for" << m_target.name;
             finish();
             return;
         }
@@ -364,7 +364,7 @@ bool ScreenCastStream::connectStream()
             params.data(), uint32_t(params.size()));
     spa_pod_dynamic_builder_clean(&builder);
     if (result < 0) {
-        CF_WARNING(base::LogCategory::defaultCategory())
+        LM_WARNING(base::LogCategory::defaultCategory())
                 << "Cannot connect the PipeWire stream for" << m_target.name << spa_strerror(result);
         return false;
     }
@@ -386,7 +386,7 @@ void ScreenCastStream::handleStateChanged(int previous, int state, const char *e
 {
     switch (state) {
     case PW_STREAM_STATE_ERROR:
-        CF_WARNING(base::LogCategory::defaultCategory()) << "PipeWire stream error for" << m_target.name << error;
+        LM_WARNING(base::LogCategory::defaultCategory()) << "PipeWire stream error for" << m_target.name << error;
         finish();
         break;
     case PW_STREAM_STATE_UNCONNECTED:
@@ -464,7 +464,7 @@ void ScreenCastStream::handleFormat(const spa_pod *param)
             if (chooseModifier(format, modifiers)) {
                 updateParams(true);
             } else {
-                CF_WARNING(base::LogCategory::defaultCategory())
+                LM_WARNING(base::LogCategory::defaultCategory())
                         << "No DMA-BUF modifier can be allocated; falling back to memory";
                 m_avoidDmaBuf = true;
                 updateParams();
@@ -529,7 +529,7 @@ void ScreenCastStream::addBuffer(pw_buffer *buffer)
         entry->bo = allocateDmaBuf(m_gbm, m_formatSize, m_drmFormat, m_modifier);
         if (!entry->bo) {
             // Withdraw DMA-BUFs and let the renegotiation replace this buffer.
-            CF_WARNING(base::LogCategory::defaultCategory())
+            LM_WARNING(base::LogCategory::defaultCategory())
                     << "Cannot allocate a DMA-BUF for the stream; falling back to memory";
             m_avoidDmaBuf = true;
             m_buffers.push_back(entry.get());
@@ -575,7 +575,7 @@ void ScreenCastStream::addBuffer(pw_buffer *buffer)
                     raw->importPending = false;
                     raw->wlBuffer = imported;
                     if (!imported) {
-                        CF_WARNING(base::LogCategory::defaultCategory())
+                        LM_WARNING(base::LogCategory::defaultCategory())
                                 << "The compositor refused a DMA-BUF; falling back to memory";
                         m_avoidDmaBuf = true;
                         if (m_stream)
@@ -744,7 +744,7 @@ void ScreenCastStream::frameFailed(uint32_t reason)
     // the compositor cannot render into them after all.
     if (m_dmabuf && reason != EXT_IMAGE_COPY_CAPTURE_FRAME_V1_FAILURE_REASON_BUFFER_CONSTRAINTS
         && ++m_failures >= dmabufFailureLimit) {
-        CF_WARNING(base::LogCategory::defaultCategory())
+        LM_WARNING(base::LogCategory::defaultCategory())
                 << "The compositor keeps failing DMA-BUF captures for" << m_target.name << "(reason" << reason
                 << "); falling back to memory";
         m_avoidDmaBuf = true;
